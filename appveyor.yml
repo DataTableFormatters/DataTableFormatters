@@ -1,0 +1,16 @@
+version: 1.0.{build}
+os: Windows Server 2012 R2
+assembly_info:
+  patch: true
+  file: '**\AssemblyInfo.*'
+  assembly_version: '{version}'
+  assembly_file_version: '{version}'
+  assembly_informational_version: '{version}'
+install:
+  - nuget restore
+before_build:
+  - ps: tools\Setup-ConfigFiles.ps1
+build:
+  verbosity: minimal
+test: off
+deploy: off
