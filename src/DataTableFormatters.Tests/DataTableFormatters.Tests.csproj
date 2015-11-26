@@ -6,8 +6,8 @@
     <ProjectGuid>{64439455-3E15-43F7-9DC9-15E0DCDF814B}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>DataTableFormatters</RootNamespace>
-    <AssemblyName>DataTableFormatters</AssemblyName>
+    <RootNamespace>DataTableFormatters.Tests</RootNamespace>
+    <AssemblyName>DataTableFormatters.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>

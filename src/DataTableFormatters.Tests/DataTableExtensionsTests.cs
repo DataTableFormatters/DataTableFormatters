@@ -3,7 +3,7 @@ using System.Data;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace DataTableFormatters
+namespace DataTableFormatters.Tests
 {
     [TestClass]
     public class DataTableExtensionsTests
