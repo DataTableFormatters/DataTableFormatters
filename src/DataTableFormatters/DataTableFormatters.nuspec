@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>DataTableFormatters</id>
+    <version>1.0.0</version>
+    <title>DataTableFormatters</title>
+    <authors>Ignacio Calvo Martínez</authors>
+    <owners>Ignacio Calvo Martínez</owners>
+    <licenseUrl>https://github.com/DataTableFormatters/DataTableFormatters/raw/master/LICENSE</licenseUrl>
+    <projectUrl>https://github.com/DataTableFormatters/DataTableFormatters</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Formatters for ADO.NET objects (DataSet, DataTable, DataRow, DataColumn)</description>
+    <releaseNotes>
+# 1.0.0
+
++ Monospaced formatter (for console output)
++ HTML formatter
+    </releaseNotes>
+    <tags>ADO Formatter DataTable DataRow</tags>
+  </metadata>
+</package>
