@@ -1,4 +1,14 @@
 version: 1.0.{build}
+branches:
+  except:
+  - master
+skip_commits:
+
+  # Regex for matching commit message
+  message: /Created.*\.(png|jpg|jpeg|bmp|gif)/
+
+  # Commit author's username, name, email or regexp maching one of these.
+  author: John
 before_build:
 - cmd: nuget restore src\DataTableFormatters.sln -verbosity detailed
 build:
@@ -7,9 +17,3 @@ build:
   verbosity: minimal
 artifacts:
 - path: src\DataTableFormatters\**\*.nupkg
-deploy:
-- provider: NuGet
-  api_key:
-    secure: q+O+3OHvLzlzP975Tg8bB3tRCa+m/MJmcMiM/dDCzEvWWHi3h1xhmsfzGX94fkDH
-  on:
-    branch: master
