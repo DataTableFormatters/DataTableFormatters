@@ -1,9 +1,0 @@
-version: 1.0.{build}
-before_build:
-- cmd: nuget restore src\DataTableFormatters.sln -verbosity detailed
-build:
-  project: src\DataTableFormatters.sln
-  publish_nuget: true
-  verbosity: minimal
-artifacts:
-- path: src\DataTableFormatters\**\*.nupkg

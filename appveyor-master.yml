@@ -1,0 +1,24 @@
+version: 1.0.{build}
+branches:
+  only:
+  - master
+assembly_info:
+  patch: true
+  file: '**\AssemblyInfo.*'
+  assembly_version: '{version}'
+  assembly_file_version: '{version}'
+  assembly_informational_version: '{version}'
+before_build:
+- cmd: nuget restore src\DataTableFormatters.sln -verbosity detailed
+build:
+  project: src\DataTableFormatters.sln
+  publish_nuget: true
+  verbosity: minimal
+artifacts:
+- path: src\DataTableFormatters\**\*.nupkg
+deploy:
+- provider: NuGet
+  api_key:
+    secure: q+O+3OHvLzlzP975Tg8bB3tRCa+m/MJmcMiM/dDCzEvWWHi3h1xhmsfzGX94fkDH
+  on:
+    branch: master
