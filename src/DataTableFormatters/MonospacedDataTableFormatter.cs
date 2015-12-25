@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Globalization;
 using System.Linq;
 
 namespace DataTableFormatters
@@ -8,10 +9,12 @@ namespace DataTableFormatters
     internal class MonospacedDataTableFormatter : BaseDataTableFormatter
     {
         private readonly IFormatConfiguration[] _options;
+        private readonly string _nullRepresentation;
 
         public MonospacedDataTableFormatter(IFormatConfiguration[] options)
         {
             _options = options;
+            _nullRepresentation = _options.OfType<NullRepresentation>().FirstOrDefault()?.NullText ?? "NULL";
         }
 
         private const string UpperLeftCorner = "+";
@@ -36,7 +39,7 @@ namespace DataTableFormatters
         protected override IEnumerable<string> GetStringRepresentation(DataTable dataTable)
         {
             if (dataTable == null)
-                throw new ArgumentNullException("dataTable");
+                throw new ArgumentNullException(nameof(dataTable));
 
             var columnWidths = dataTable.DataColumns().Select(ColumnMaxElementLength).ToList();
 
@@ -121,46 +124,25 @@ namespace DataTableFormatters
                 " " + Split + " ",
                 " " + RightBorder + Environment.NewLine);
         }
-
+        
         private string Cell(DataRow row, int index, ColumnAndWidth columnWidth)
         {
             string stringRepresentation;
             if (row[index] == DBNull.Value)
             {
-                stringRepresentation = "NULL";
+                stringRepresentation = _nullRepresentation;
             }
             else
             {
-                var format = _options.OfType<CustomFormat>().FirstOrDefault(y => y.ColumnName == columnWidth.ColumnName);
-                var formatString = format == null ? "{0}" : "{0:" + format.FormatString + "}";
-                stringRepresentation = string.Format(formatString, row[index]);
+                var format = _options.OfType<CustomColumnFormat>().FirstOrDefault(y => y.ColumnName == columnWidth.ColumnName)
+                    ?? new CustomColumnFormat();
+                stringRepresentation = string.Format(format.Culture, format.PlaceHolder(), row[index]);
             }
 
             string alignedContent = Align(columnWidth.ColumnName, stringRepresentation, columnWidth.Width);
             return alignedContent;
         }
-
-        private static IEnumerable<T> Interlace<T>(T prefix, IEnumerable<T> list, T separator, T suffix)
-        {
-            yield return prefix;
-            if (list.Any())
-            {
-                yield return list.First();
-                foreach (T item in list.Skip(1))
-                {
-                    yield return separator;
-                    yield return item;
-                }
-            }
-
-            yield return suffix;
-        }
-
-        private static IEnumerable<T> Concatenate<T>(params IEnumerable<T>[] lists)
-        {
-            return lists.SelectMany(x => x);
-        }
-
+        
         private class ColumnAndWidth
         {
             public ColumnAndWidth(DataColumn column, int width)
@@ -169,8 +151,8 @@ namespace DataTableFormatters
                 Width = width;
             }
 
-            public string ColumnName { get; set; }
-            public int Width { get; set; }
+            public string ColumnName { get; }
+            public int Width { get; }
         }
     }
 }

@@ -6,9 +6,15 @@ namespace DataTableFormatters
 {
     public static class DataTableExtensions
     {
-        public static string GetStringRepresentation(this DataTable dataTable, params IFormatConfiguration[] options)
+        public static string ToMySql(this DataTable dataTable, params IFormatConfiguration[] options)
         {
             IDataTableFormatter formatter = new MonospacedDataTableFormatter(options);
+            return formatter.GetStringRepresentation(dataTable);
+        }
+
+        public static string ToHtml(this DataTable dataTable, params IFormatConfiguration[] options)
+        {
+            IDataTableFormatter formatter = new MarkupDataTableFormatter(options);
             return formatter.GetStringRepresentation(dataTable);
         }
 

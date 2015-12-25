@@ -41,12 +41,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BaseDataTableFormatter.cs" />
-    <Compile Include="CustomFormat.cs" />
+    <Compile Include="CustomColumnFormat.cs" />
     <Compile Include="DataTableExtensions.cs" />
     <Compile Include="IDataTableFormatter.cs" />
     <Compile Include="IFormatConfiguration.cs" />
     <Compile Include="MarkupDataTableFormatter.cs" />
     <Compile Include="MonospacedDataTableFormatter.cs" />
+    <Compile Include="NullRepresentation.cs" />
     <Compile Include="RightAlign.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

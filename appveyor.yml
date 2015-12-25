@@ -1,19 +1,72 @@
+#---------------------------------#
+#      general configuration      #
+#---------------------------------#
+
 version: 1.0.{build}
+
 branches:
   except:
   - master
-skip_commits:
 
-  # Regex for matching commit message
-  message: /Created.*\.(png|jpg|jpeg|bmp|gif)/
+environment:
+  complete_version: $(appveyor_repo_tag_name)
+#---------------------------------#
+#    environment configuration    #
+#---------------------------------#
 
-  # Commit author's username, name, email or regexp maching one of these.
-  author: John
+# scripts that run after cloning repository
+install:
+- ps: tools\Set-VersionEnvironmentVariables.ps1 $(APPVEYORTAG_NAME)
+- ps: tools\Set-VersionToNuspec.ps1 $(COMPLETE_VERSION)
+
+assembly_info:
+  patch: true
+  file: '**\AssemblyInfo.*'
+  assembly_version: '$(NUMERIC_VERSION)'
+  assembly_file_version: '$(NUMERIC_VERSION)'
+  assembly_informational_version: '$(COMPLETE_VERSION)'
+
+
+#---------------------------------#
+#       build configuration       #
+#---------------------------------#
+
 before_build:
 - cmd: nuget restore src\DataTableFormatters.sln -verbosity detailed
 build:
   project: src\DataTableFormatters.sln
   publish_nuget: true
   verbosity: minimal
+
+#---------------------------------#
+#       tests configuration       #
+#---------------------------------#
+
+#---------------------------------#
+#      artifacts configuration    #
+#---------------------------------#
+  
 artifacts:
 - path: src\DataTableFormatters\**\*.nupkg
+
+
+#---------------------------------#
+#     deployment configuration    #
+#---------------------------------#
+
+deploy:
+- provider: NuGet
+  api_key:
+    secure: q+O+3OHvLzlzP975Tg8bB3tRCa+m/MJmcMiM/dDCzEvWWHi3h1xhmsfzGX94fkDH
+  on:
+    branch: master
+    appveyor_repo_tag: true
+
+#---------------------------------#
+#        global handlers          #
+#---------------------------------#
+
+#---------------------------------#
+#         notifications           #
+#---------------------------------#
+  
